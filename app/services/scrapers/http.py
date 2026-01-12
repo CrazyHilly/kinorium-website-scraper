@@ -1,34 +1,19 @@
 import re
-from typing import List
+import sqlite3
 
 from bs4 import BeautifulSoup
-from fastapi import HTTPException
 from playwright.async_api import async_playwright
-from pydantic import BaseModel
 
 from app.core.config import settings
+from app.db import save_genre_movies
+from app.schemas import Movie, GenreResponse
 
 
-class Movie(BaseModel):
-    title: str
-    year: int
-    url: str
-    country: str
-    rating_imdb: float
-
-
-class GenreResponse(BaseModel):
-    genre_id: int
-    genre: str
-    amount: int
-    movies: List[Movie]
-
-
-async def get_movies_by_genre(genre: str) -> GenreResponse:
-    if genre.lower() not in settings.GENRE_IDS:
-        raise HTTPException(400, f"Genre '{genre}' not found")
-    genre_id = settings.GENRE_IDS.get(genre.lower())
-    
+async def get_movies_by_genre(
+        conn: sqlite3.Connection, 
+        genre_id: int, 
+        genre: str
+        ) -> GenreResponse:
     url = f"{settings.KINORIUM_GENRE_URL}/{genre_id}/"
 
     async with async_playwright() as p:
@@ -84,6 +69,8 @@ async def get_movies_by_genre(genre: str) -> GenreResponse:
                     rating_imdb=rating_imdb,
                 )
             )
+
+        save_genre_movies(conn, genre_id, genre, url, movies)
 
         await browser.close()
 
