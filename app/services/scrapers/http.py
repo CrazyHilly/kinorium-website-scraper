@@ -33,6 +33,8 @@ async def get_movies_by_genre(genre: str) -> GenreResponse:
 
     async with httpx.AsyncClient(timeout=10.0) as client:
         response = await client.get(url)
+        if "Too Many Requests" in response.text or "Error 429" in response.text:
+            raise HTTPException(429, "Kinorium rate limited: too many requests")
         response.raise_for_status()
 
     content = BeautifulSoup(response.text, "html.parser")
