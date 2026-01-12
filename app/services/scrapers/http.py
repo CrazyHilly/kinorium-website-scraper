@@ -26,7 +26,7 @@ class GenreResponse(BaseModel):
 
 async def get_movies_by_genre(genre: str) -> GenreResponse:
     if genre.lower() not in settings.GENRE_IDS:
-        raise HTTPException(400, f"Genre {genre} not found")
+        raise HTTPException(400, f"Genre '{genre}' not found")
     genre_id = settings.GENRE_IDS.get(genre.lower())
     
     url = f"{settings.KINORIUM_GENRE_URL}/{genre_id}/"
@@ -67,7 +67,7 @@ async def get_movies_by_genre(genre: str) -> GenreResponse:
                 country_el = info.find("span", class_="filmList__extra-info-director")
                 country_text = country_el.get_text(strip=True) if country_el else ""
                 country = country_text.split("•")[0].strip() if country_text else ""
-            
+
                 rating_el = info.find("li", class_="rating_imdb")
                 try:
                     rating_text = rating_el.find("span", class_="value green")
