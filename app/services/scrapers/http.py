@@ -67,7 +67,7 @@ async def get_movies_by_genre(
                 if info:
                     try:
                         year_el = info.find("small").get_text(strip=True)
-                        year_match = re.search(r"(\d{4})$", year_el)
+                        year_match = re.search(r"(\d{4})", year_el)
                         year = int(year_match.group(1))
                     except:
                         year = 0
