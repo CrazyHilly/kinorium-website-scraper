@@ -23,7 +23,7 @@ class Settings(BaseSettings):
         "game-show": 11,
         "history": 12,
         "horror": 28,
-        "musical": 18,
+        "music": 18,
         "musical": 20,
         "mystery": 6,
         "mystic": 58,
