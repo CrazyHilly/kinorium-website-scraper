@@ -32,9 +32,11 @@ Open in browser:
 
 `http://localhost:8002/genre/news/scrape`
 
+`http://localhost:8002/genre/action?page=1&size=50`
+
  **Sample response** :
 
-`{ "genre_id": 5, "genre": "war", "amount": 8592, "movies": [ { "title": "Безславні виродки", "year": 2009, "url": "https://ua.kinorium.com/283333/", "country": "США, Німеччина", "rating_imdb": 8.4 }, { "title": "Список Шиндлера", "year": 1993, "url": "https://ua.kinorium.com/98467/", "country": "США", "rating_imdb": 9 }, ... ] } `
+`{ "genre_id": 5, "genre": "war", "amount": 8592, "page": 1, "per_page": 50, "pages": 172, "movies": [ { "title": "Безславні виродки", "year": 2009, "url": "https://ua.kinorium.com/283333/", "country": "США, Німеччина", "rating_imdb": 8.4 }, { "title": "Список Шиндлера", "year": 1993, "url": "https://ua.kinorium.com/98467/", "country": "США", "rating_imdb": 9 }, ... ] } `
 
 ## API Endpoints
 
@@ -46,7 +48,14 @@ Open in browser:
 
  **Supported genres** : `action`, `adventure`, `animation`, `comedy`, `crime`, `documentary`, `drama`, `family`, `fantasy`, `horror`, `musical`, `mystery`, `romance`, `sci-fi`, `thriller`, `war`, `western` (case-insensitive). Full list in `app/core/config.py`.
 
- **Error responses** :
+ **Pagination params** :
+
+* `page` (default=1, min=1)
+* `size` (default=50, 1-200)
+
+Example: `/genre/drama?page=2&size=100` → movies 51-150
+
+**Error responses** :
 
 * `400 Bad Request`: Invalid genre name
 * `408 Request Timeout`: Scraping timeout

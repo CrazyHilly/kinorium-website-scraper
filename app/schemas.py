@@ -1,5 +1,3 @@
-from typing import List
-
 from pydantic import BaseModel
 
 
@@ -9,10 +7,3 @@ class Movie(BaseModel):
     url: str
     country: str
     rating_imdb: float
-
-
-class GenreResponse(BaseModel):
-    genre_id: int
-    genre: str
-    amount: int
-    movies: List[Movie]
