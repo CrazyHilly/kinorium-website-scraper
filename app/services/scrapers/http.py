@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
 from app.core.config import settings
-from app.db import save_genre_movies
+from app.db import save_data_to_db
 from app.schemas import Movie, GenreResponse
 
 
@@ -99,7 +99,7 @@ async def get_movies_by_genre(
         await browser.close()
     
     if movies:
-        save_genre_movies(conn, genre_id, genre, url, movies)
+        save_data_to_db(conn, genre_id, genre, url, movies)
 
     return GenreResponse(
         genre_id=genre_id,

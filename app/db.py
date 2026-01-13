@@ -85,7 +85,7 @@ def is_db_data_fresh(conn: sqlite3.Connection, genre_id: int) -> bool:
     return datetime.now(timezone.utc) - last < UPDATE_TIME
 
 
-def get_movies_for_genre(conn: sqlite3.Connection, genre_id: int) -> List[Movie]:
+def get_movies_from_db(conn: sqlite3.Connection, genre_id: int) -> List[Movie]:
     cursor = conn.cursor()
     cursor.execute(
         """
@@ -109,7 +109,7 @@ def get_movies_for_genre(conn: sqlite3.Connection, genre_id: int) -> List[Movie]
     ]
 
 
-def save_genre_movies(
+def save_data_to_db(
     conn: sqlite3.Connection,
     genre_id: int,
     genre: str,

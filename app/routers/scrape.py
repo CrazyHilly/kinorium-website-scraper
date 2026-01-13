@@ -3,7 +3,7 @@ import sqlite3
 from fastapi import APIRouter, HTTPException, Depends
 
 from app.core.config import settings
-from app.db import get_db, is_db_data_fresh, get_movies_for_genre
+from app.db import get_db, is_db_data_fresh, get_movies_from_db
 from app.schemas import GenreResponse
 from app.services.scrapers.http import get_movies_by_genre
 
@@ -17,7 +17,7 @@ async def scrape_genre(genre: str, conn: sqlite3.Connection=Depends(get_db)):
     genre_id = settings.GENRE_IDS.get(genre.lower())
 
     if is_db_data_fresh(conn, genre_id):
-        movies = get_movies_for_genre(conn, genre_id)
+        movies = get_movies_from_db(conn, genre_id)
         return GenreResponse(
             genre_id=genre_id,
             genre=genre,
