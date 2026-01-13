@@ -15,22 +15,22 @@ FastAPI REST API that scrapes **movies per genre** from [Kinorium.ua](https://ua
 
    `playwright install chromium  `
 4. **Run the server**
-   `uvicorn app.main:app`
+   `uvicorn app.main:app --port 8002`
 
-Server will be available at [http://localhost:8000](http://localhost:8000/)
+Server will be available at [http://localhost:8002](http://localhost:8002/)
 
 ## Usage
 
 Open in browser:
 
-* **Interactive API docs** : [http://localhost:8000/docs](http://localhost:8000/docs)
-* **Alternative docs** : [http://localhost:8000/redoc](http://localhost:8000/redoc)
+* **Interactive API docs** : [http://localhost:8002/docs](http://localhost:8002/docs)
+* **Alternative docs** : [http://localhost:8002/redoc](http://localhost:8002/redoc)
 
 ## Example API calls
 
-`http://localhost:8000/genre/news`
+`http://localhost:8002/genre/news`
 
-`http://localhost:8000/genre/drama`
+`http://localhost:8002/genre/drama`
 
  **Sample response** :
 
