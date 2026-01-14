@@ -7,6 +7,7 @@ from app.core.config import settings
 from app.db import get_db, is_db_data_fresh, get_movies_from_db
 from app.schemas import Movie
 from app.services.scrapers.http import get_movies_by_genre
+from app.services.scrapers.non_headless import open_movie_page
 
 router = APIRouter()
 
@@ -42,6 +43,17 @@ async def force_scrape_genre(
     movies = await _scrape_genre(conn, genre_id, genre)
 
     return _get_movies_per_page(genre_id, genre, movies, page, size)
+
+
+@router.get("/movie/{movie_title}/open")
+async def open_movie(movie_title: str) -> dict:
+    """Find movie by title and open movie page in browser."""
+    try:
+        return await open_movie_page(movie_title)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(500, f"Scraping error: {str(e)[:100]}")
 
 
 async def _scrape_genre(
