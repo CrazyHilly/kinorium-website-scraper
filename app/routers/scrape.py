@@ -66,7 +66,7 @@ async def _scrape_genre(
     except TimeoutError as e:
         raise HTTPException(408, f"Timeout error: {e}")
     except Exception as e:
-        raise HTTPException(500, f"Scraping error: {e}")
+        raise HTTPException(500, f"Scraping error: {str(e)[:100]}")
     
 
 def _get_genre_id(genre: str) -> int:
