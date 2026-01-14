@@ -5,7 +5,7 @@ from app.core.config import settings
 
 
 async def open_movie_page(search_title: str) -> dict:
-    url = f"{settings.KINORIUM_BASE_URL}/search/?q={search_title.replace(' ', '%20')}"
+    url = f"{settings.KINORIUM_SEARCH_URL}/?q={search_title.replace(' ', '%20')}"
     
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=False)
@@ -23,9 +23,9 @@ async def open_movie_page(search_title: str) -> dict:
             movie_url = settings.KINORIUM_BASE_URL + movie_url
             try:
                 movie_data = await results.locator(".cut_text").first.inner_text()
-                year = movie_data.split(",")[0].strip()
+                movie_year = movie_data.split(",")[0].strip()
             except:
-                year = "-"
+                movie_year = "-"
         except:
             await browser.close()
             raise HTTPException(404, f"Movie '{search_title}' not found")
@@ -38,6 +38,6 @@ async def open_movie_page(search_title: str) -> dict:
         "status": "opened",
         "search_text": search_title,
         "movie_title": movie_title,
-        "year": year,
+        "year": movie_year,
         "movie_url": movie_url
     }
