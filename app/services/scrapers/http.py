@@ -45,11 +45,12 @@ async def get_movies_by_genre(
             content_txt = await page.content()
 
             content = BeautifulSoup(content_txt, "html.parser")
-            pages_el = content.find("ul", class_="pages")
-            try:
-                page_total = int(pages_el.find_all("a")[-1].text)
-            except:
-                page_total = 1
+            if page_num == 1:
+                pages_el = content.find("ul", class_="pages")
+                try:
+                    page_total = int(pages_el.find_all("a")[-1].text)
+                except:
+                    page_total = 1
             
             movie_cards = content.find_all("div", class_="filmList__item-content")
             for card in movie_cards:
