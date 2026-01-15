@@ -1,19 +1,20 @@
 import re
 import sqlite3
+from typing import List
 
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
 
 from app.core.config import settings
 from app.db import save_data_to_db
-from app.schemas import Movie, GenreResponse
+from app.schemas import Movie
 
 
 async def get_movies_by_genre(
         conn: sqlite3.Connection, 
         genre_id: int, 
         genre: str
-        ) -> GenreResponse:
+        ) -> List[Movie]:
     page_num = 1
     page_total = 1
     movies = []
@@ -101,9 +102,4 @@ async def get_movies_by_genre(
     if movies:
         save_data_to_db(conn, genre_id, genre, url, movies)
 
-    return GenreResponse(
-        genre_id=genre_id,
-        genre=genre,
-        amount=len(movies),
-        movies=movies,
-    )
+    return movies

@@ -5,6 +5,8 @@ class Settings(BaseSettings):
     KINORIUM_BASE_URL: str = "https://ua.kinorium.com"
     KINORIUM_GENRE_URL: str = \
         "https://ua.kinorium.com/R2D2/?order=rating&perpage=200&genres%5B%5D="
+    KINORIUM_SEARCH_URL: str = "https://ua.kinorium.com/search/"
+    
     GENRE_IDS: dict = {
         "action": 3,
         "adventure": 22,
