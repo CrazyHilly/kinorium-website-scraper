@@ -38,7 +38,10 @@ async def get_movies_by_genre(
         while page_num <= page_total:
             url = f"{settings.KINORIUM_GENRE_URL}{genre_id}&page={page_num}"
             await page.goto(url, wait_until="domcontentloaded")
-            await page.wait_for_timeout(3000)
+
+            movie_selector = "headlines_type-, .item" 
+            await page.wait_for_selector(movie_selector, state="visible", timeout=20000)
+        
             content_txt = await page.content()
 
             content = BeautifulSoup(content_txt, "html.parser")
